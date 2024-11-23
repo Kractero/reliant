@@ -9,18 +9,10 @@
     "24": "icons/icon24.png",
     "32": "icons/icon32.png"
   },
-  "permissions": [
-    "activeTab",
-    "storage",
-    "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess"
-  ],
-  "host_permissions": [
-    "https://*.nationstates.net/*",
-    "https://mail.google.com/*"
-  ],
+  "permissions": ["activeTab", "storage", "declarativeNetRequest"],
+  "host_permissions": ["https://*.nationstates.net/*", "https://mail.google.com/*"],
   "background": {
-    "service_worker": "js/background.js"
+    "scripts": ["js/background.js"]
   },
   "action": {
     "default_icon": {
@@ -33,88 +25,48 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://*.nationstates.net/*"
-      ],
-      "exclude_matches": [
-        "https://forum.nationstates.net/*"
-      ],
+      "matches": ["https://*.nationstates.net/*"],
+      "exclude_matches": ["https://forum.nationstates.net/*"],
       "run_at": "document_end",
-      "js": [
-        "js/main.js"
-      ]
+      "js": ["js/main.js"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/*"
-      ],
+      "matches": ["https://*.nationstates.net/*"],
       "run_at": "document_end",
-      "js": [
-        "js/notyf.min.js"
-      ],
-      "css": [
-        "css/notyf.min.css"
-      ]
+      "js": ["js/notyf.min.js"],
+      "css": ["css/notyf.min.css"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/page=blank/reliant=settings"
-      ],
+      "matches": ["https://*.nationstates.net/page=blank/reliant=settings"],
       "run_at": "document_end",
-      "js": [
-        "js/settings.js"
-      ]
+      "js": ["js/settings.js"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/template-overall=none/page=blank/reliant=main"
-      ],
+      "matches": ["https://*.nationstates.net/template-overall=none/page=blank/reliant=main"],
       "run_at": "document_end",
-      "js": [
-        "js/mainpage.js"
-      ],
-      "css": [
-        "css/mainpage-modern.css"
-      ]
+      "js": ["js/mainpage.js"],
+      "css": ["css/mainpage-modern.css"]
     },
     {
-      "matches": [
-        "https://mail.google.com/*"
-      ],
+      "matches": ["https://mail.google.com/*"],
       "run_at": "document_end",
-      "js": [
-        "js/joinwa.js"
-      ]
+      "js": ["js/joinwa.js"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/page=join_WA?*"
-      ],
+      "matches": ["https://*.nationstates.net/page=join_WA?*"],
       "run_at": "document_end",
-      "js": [
-        "js/joinwa-fallback.js"
-      ]
+      "js": ["js/joinwa-fallback.js"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/page=ajax2*"
-      ],
+      "matches": ["https://*.nationstates.net/page=ajax2*"],
       "run_at": "document_end",
-      "js": [
-        "js/ajax2.js"
-      ]
+      "js": ["js/ajax2.js"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/template-overall=none/page=blank/reliant=prep"
-      ],
+      "matches": ["https://*.nationstates.net/template-overall=none/page=blank/reliant=prep"],
       "run_at": "document_end",
-      "js": [
-        "js/prep.js"
-      ],
-      "css": [
-        "css/prep-modern.css"
-      ]
+      "js": ["js/prep.js"],
+      "css": ["css/prep-modern.css"]
     },
     {
       "matches": [
@@ -123,18 +75,12 @@
         "https://*.nationstates.net/region=*/*"
       ],
       "run_at": "document_end",
-      "js": [
-        "js/region.js"
-      ]
+      "js": ["js/region.js"]
     },
     {
-      "matches": [
-        "https://*.nationstates.net/nation=*"
-      ],
+      "matches": ["https://*.nationstates.net/nation=*"],
       "run_at": "document_end",
-      "js": [
-        "js/nation.js"
-      ]
+      "js": ["js/nation.js"]
     }
   ]
 }

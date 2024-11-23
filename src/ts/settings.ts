@@ -212,11 +212,11 @@ Current:
 `;
 
 let notyf = new Notyf({
-    duration: 3000,
-    position: {
-        x: 'right',
-        y: 'top'
-    }
+	duration: 3000,
+	position: {
+		x: 'right',
+		y: 'top'
+	}
 });
 
 /*
@@ -240,234 +240,193 @@ document.querySelector('#find-wa').addEventListener('click', findMyWa);
  * Handlers
  */
 
-function setKey(e: MouseEvent): void
-{
-    let keyToSet: string;
-    const key: string = (document.querySelector('#new-key') as HTMLInputElement).value.toUpperCase();
-    const radioButtons: NodeList = document.querySelector('#keys').querySelectorAll('input[type=radio]');
-    for (let i = 0; i != radioButtons.length; i++) {
-        if ((radioButtons[i] as HTMLInputElement).checked) {
-            keyToSet = (radioButtons[i] as HTMLInputElement).value;
-            break;
-        }
-    }
-    (document.querySelector('#new-key') as HTMLInputElement).value = '';
-    chrome.storage.local.set({[keyToSet]: key});
-    notyf.success(`Set function "${keyToSet}" to key ${key}`);
+function setKey(e: MouseEvent): void {
+	let keyToSet: string;
+	const key: string = (document.querySelector('#new-key') as HTMLInputElement).value.toUpperCase();
+	const radioButtons: NodeList = document.querySelector('#keys').querySelectorAll('input[type=radio]');
+	for (let i = 0; i != radioButtons.length; i++) {
+		if ((radioButtons[i] as HTMLInputElement).checked) {
+			keyToSet = (radioButtons[i] as HTMLInputElement).value;
+			break;
+		}
+	}
+	(document.querySelector('#new-key') as HTMLInputElement).value = '';
+	browser.storage.local.set({ [keyToSet]: key });
+
+	notyf.success(`Set function "${keyToSet}" to key ${key}`);
 }
 
-async function setUserAgent(e: MouseEvent): Promise<void>
-{
-    const newUserAgent: string = canonicalize((document.querySelector('#new-main-nation') as HTMLInputElement).value);
-    await setStorageValue('useragent', newUserAgent);
-    notyf.success(`Set identifier to ${newUserAgent}`);
+async function setUserAgent(e: MouseEvent): Promise<void> {
+	const newUserAgent: string = canonicalize((document.querySelector('#new-main-nation') as HTMLInputElement).value);
+	await setStorageValue('useragent', newUserAgent);
+	notyf.success(`Set identifier to ${newUserAgent}`);
 }
 
-function setJumpPoint(e: MouseEvent): void
-{
-    const newJumpPoint: string = canonicalize((document.querySelector('#new-jump-point') as HTMLInputElement).value);
-    chrome.storage.local.set({'jumppoint': newJumpPoint});
-    notyf.success(`Set jump point to ${newJumpPoint}`);
+function setJumpPoint(e: MouseEvent): void {
+	const newJumpPoint: string = canonicalize((document.querySelector('#new-jump-point') as HTMLInputElement).value);
+	browser.storage.local.set({ jumppoint: newJumpPoint });
+	notyf.success(`Set jump point to ${newJumpPoint}`);
 }
 
-function setRoName(e: MouseEvent): void
-{
-    const newRoName: string = (document.querySelector('#new-ro-name') as HTMLInputElement).value;
-    chrome.storage.local.set({'roname': newRoName});
-    notyf.success(`Set detag RO name to ${newRoName}`);
+function setRoName(e: MouseEvent): void {
+	const newRoName: string = (document.querySelector('#new-ro-name') as HTMLInputElement).value;
+	browser.storage.local.set({ roname: newRoName });
+	notyf.success(`Set detag RO name to ${newRoName}`);
 }
 
-function setMaxHappeningsCount(e: MouseEvent): void
-{
-    const maxHappeningsCount = (document.querySelector('#max-happenings-count') as HTMLInputElement).value;
-    const radioButtons = document.querySelector('#max-happenings').querySelectorAll('input[type=radio]');
-    let happeningSetting: string;
-    for (let i = 0; i != radioButtons.length; i++) {
-        if ((radioButtons[i] as HTMLInputElement).checked) {
-            happeningSetting = (radioButtons[i] as HTMLInputElement).value;
-            break;
-        }
-    }
-    chrome.storage.local.set({[happeningSetting]: maxHappeningsCount});
-    notyf.success(`Set ${happeningSetting} to ${maxHappeningsCount}`);
+function setMaxHappeningsCount(e: MouseEvent): void {
+	const maxHappeningsCount = (document.querySelector('#max-happenings-count') as HTMLInputElement).value;
+	const radioButtons = document.querySelector('#max-happenings').querySelectorAll('input[type=radio]');
+	let happeningSetting: string;
+	for (let i = 0; i != radioButtons.length; i++) {
+		if ((radioButtons[i] as HTMLInputElement).checked) {
+			happeningSetting = (radioButtons[i] as HTMLInputElement).value;
+			break;
+		}
+	}
+	browser.storage.local.set({ [happeningSetting]: maxHappeningsCount });
+	notyf.success(`Set ${happeningSetting} to ${maxHappeningsCount}`);
 }
 
-function setSwitchers(e: MouseEvent): void
-{
-    let switchers: string[] = (document.querySelector('#switchers') as HTMLTextAreaElement).value.split('\n');
-    for (let i = 0; i != switchers.length; i++)
-        switchers[i] = canonicalize(switchers[i]);
-    chrome.storage.local.set({'prepswitchers': switchers});
-    notyf.success(`Set list of ${switchers.length} switchers.`);
+function setSwitchers(e: MouseEvent): void {
+	let switchers: string[] = (document.querySelector('#switchers') as HTMLTextAreaElement).value.split('\n');
+	for (let i = 0; i != switchers.length; i++) switchers[i] = canonicalize(switchers[i]);
+	browser.storage.local.set({ prepswitchers: switchers });
+	notyf.success(`Set list of ${switchers.length} switchers.`);
 }
 
-function setPassword(e: MouseEvent): void
-{
-    const password = (document.querySelector('#my-password') as HTMLInputElement).value;
-    chrome.storage.local.set({'password': password});
-    notyf.success(`Set password to ${password}`);
+function setPassword(e: MouseEvent): void {
+	const password = (document.querySelector('#my-password') as HTMLInputElement).value;
+	browser.storage.local.set({ password: password });
+	notyf.success(`Set password to ${password}`);
 }
 
-function clearStoredWaApplications(e: MouseEvent): void
-{
-    chrome.storage.local.set({'switchers': []});
-    notyf.success('Cleared all stored WA applications.');
+function clearStoredWaApplications(e: MouseEvent): void {
+	browser.storage.local.set({ switchers: [] });
+	notyf.success('Cleared all stored WA applications.');
 }
 
-function setBlockedRegions(e: MouseEvent): void
-{
-    let blockedRegions: string[] = (document.querySelector('#blocked-regions') as HTMLTextAreaElement).
-        value.split('\n');
-    for (let i = 0; i !== blockedRegions.length; i++)
-        blockedRegions[i] = canonicalize(blockedRegions[i]);
-    chrome.storage.local.set({'blockedregions': blockedRegions});
-    notyf.success(`Set blocked regions.`);
+function setBlockedRegions(e: MouseEvent): void {
+	let blockedRegions: string[] = (document.querySelector('#blocked-regions') as HTMLTextAreaElement).value.split('\n');
+	for (let i = 0; i !== blockedRegions.length; i++) blockedRegions[i] = canonicalize(blockedRegions[i]);
+	browser.storage.local.set({ blockedregions: blockedRegions });
+	notyf.success(`Set blocked regions.`);
 }
 
-function setDossierKeywords(e: MouseEvent): void
-{
-    let dossierKeywords: string[] = (document.querySelector('#dossier-keywords') as HTMLTextAreaElement)
-        .value.split('\n');
-    for (let i = 0; i !== dossierKeywords.length; i++)
-        dossierKeywords[i] = dossierKeywords[i].toLowerCase();
-    chrome.storage.local.set({'dossierkeywords': dossierKeywords});
-    notyf.success(`Set dossier keywords.`);
+function setDossierKeywords(e: MouseEvent): void {
+	let dossierKeywords: string[] = (document.querySelector('#dossier-keywords') as HTMLTextAreaElement).value.split('\n');
+	for (let i = 0; i !== dossierKeywords.length; i++) dossierKeywords[i] = dossierKeywords[i].toLowerCase();
+	browser.storage.local.set({ dossierkeywords: dossierKeywords });
+	notyf.success(`Set dossier keywords.`);
 }
 
-function setEndorseKeywords(e: MouseEvent): void
-{
-    let dossierKeywords: string[] = (document.querySelector('#endorse-keywords') as HTMLTextAreaElement)
-        .value.split('\n');
-    for (let i = 0; i !== dossierKeywords.length; i++)
-        dossierKeywords[i] = dossierKeywords[i].toLowerCase();
-    chrome.storage.local.set({'endorsekeywords': dossierKeywords});
-    notyf.success(`Set endorse keywords.`);
+function setEndorseKeywords(e: MouseEvent): void {
+	let dossierKeywords: string[] = (document.querySelector('#endorse-keywords') as HTMLTextAreaElement).value.split('\n');
+	for (let i = 0; i !== dossierKeywords.length; i++) dossierKeywords[i] = dossierKeywords[i].toLowerCase();
+	browser.storage.local.set({ endorsekeywords: dossierKeywords });
+	notyf.success(`Set endorse keywords.`);
 }
 
-async function findMyWa(e: MouseEvent): Promise<void>
-{
-    // It wouldn't work using fetch/makeAjaxQuery, I seriously have no idea why - Haku
-    const xhr = new XMLHttpRequest();
+async function findMyWa(e: MouseEvent): Promise<void> {
+	// It wouldn't work using fetch/makeAjaxQuery, I seriously have no idea why - Haku
+	const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', '/cgi-bin/api.cgi?wa=1&q=members', true);
+	xhr.open('GET', '/cgi-bin/api.cgi?wa=1&q=members', true);
 
-    xhr.onreadystatechange = async function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const xmlDoc = xhr.responseXML;
+	xhr.onreadystatechange = async function () {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			const xmlDoc = xhr.responseXML;
 
-            const membersElement = xmlDoc.querySelector('MEMBERS').textContent;
-            if (!membersElement) return;
-            const members = membersElement.split(',');
-            const prepSwitchers = await getStorageValue('prepswitchers');
-            let wa: string = members.find((member) => prepSwitchers.includes(member));
-            const output = document.querySelector('#find-wa-output');
-            output.innerHTML = wa ? `Found WA: ${wa}` : 'Could not find WA.';
-
-        }
-    };
-    (e.target as HTMLInputElement).disabled = true;
-    xhr.send();
+			const membersElement = xmlDoc.querySelector('MEMBERS').textContent;
+			if (!membersElement) return;
+			const members = membersElement.split(',');
+			const prepSwitchers = await getStorageValue('prepswitchers');
+			let wa: string = members.find((member) => prepSwitchers.includes(member));
+			const output = document.querySelector('#find-wa-output');
+			output.innerHTML = wa ? `Found WA: ${wa}` : 'Could not find WA.';
+		}
+	};
+	(e.target as HTMLInputElement).disabled = true;
+	xhr.send();
 }
 
-chrome.storage.local.get(['prepswitchers', 'password'], (result) =>
-{
-    const currentSwitcherSet = document.querySelector('#current-switcher-set');
-    const prepSwitchers: string[] = result.prepswitchers ?? [];
-    for (let i = 0; i != prepSwitchers.length; i++)
-        currentSwitcherSet.innerHTML +=
-            `<a href="/page=un?nation=${prepSwitchers[i]}&password=${result.password}&logging_in=1" target="_blank">${prepSwitchers[i]}</a><br>`;
+browser.storage.local.get(['prepswitchers', 'password']).then((result) => {
+	const currentSwitcherSet = document.querySelector('#current-switcher-set');
+	const prepSwitchers: string[] = result.prepswitchers ?? [];
+	for (let i = 0; i < prepSwitchers.length; i++) {
+		currentSwitcherSet.innerHTML += `<a href="/page=un?nation=${prepSwitchers[i]}&password=${result.password}&logging_in=1" target="_blank">${prepSwitchers[i]}</a><br>`;
+	}
 });
 
-chrome.storage.local.get('switchers', (result) =>
-{
-    const currentApplications = document.querySelector('#current-stored-applications');
-    const applications: Switcher[] = result.switchers ?? [];
-    for (let i = 0; i !== applications.length; i++) {
-        currentApplications.innerHTML += `<p>Name: ${applications[i].name}<br>ID: ${applications[i].appid}</p>`;
-    }
+browser.storage.local.get('switchers').then((result) => {
+	const currentApplications = document.querySelector('#current-stored-applications');
+	const applications: Switcher[] = result.switchers ?? [];
+	for (let i = 0; i !== applications.length; i++) {
+		currentApplications.innerHTML += `<p>Name: ${applications[i].name}<br>ID: ${applications[i].appid}</p>`;
+	}
 });
 
 /*
  * Initialization
  */
+(async () => {
+	await setDefaultStorageValues();
 
-(async () =>
-{
-    await setDefaultStorageValues();
+	async function getCurrentKey(key: string): Promise<string> {
+		const result = await browser.storage.local.get(key);
+		return result[key] || '';
+	}
 
-    async function getCurrentKey(key: string): Promise<string>
-    {
-        return new Promise((resolve, reject) =>
-        {
-            chrome.storage.local.get(key, (result) =>
-            {
-                resolve(result[key]);
-            });
-        });
-    }
+	async function displayCurrentKeys(): Promise<void> {
+		const currentKeys = await Promise.all([
+			getCurrentKey('movekey'),
+			getCurrentKey('jpkey'),
+			getCurrentKey('refreshkey'),
+			getCurrentKey('mainpagekey'),
+			getCurrentKey('resignkey'),
+			getCurrentKey('dossierkey'),
+			getCurrentKey('dossiernationkey'),
+			getCurrentKey('endorsekey'),
+			getCurrentKey('gcrkey'),
+			getCurrentKey('viewregionkey'),
+			getCurrentKey('worldactivitykey'),
+			getCurrentKey('didiupdatekey'),
+			getCurrentKey('delegatekey'),
+			getCurrentKey('prepkey'),
+			getCurrentKey('settingskey')
+		]);
 
-    async function displayCurrentKeys(): Promise<void>
-    {
-        const currentKeys = await Promise.all([
-            getCurrentKey('movekey'),
-            getCurrentKey('jpkey'),
-            getCurrentKey('refreshkey'),
-            getCurrentKey('mainpagekey'),
-            getCurrentKey('resignkey'),
-            getCurrentKey('dossierkey'),
-            getCurrentKey('dossiernationkey'),
-            getCurrentKey('endorsekey'),
-            getCurrentKey('gcrkey'),
-            getCurrentKey('viewregionkey'),
-            getCurrentKey('worldactivitykey'),
-            getCurrentKey('didiupdatekey'),
-            getCurrentKey('delegatekey'),
-            getCurrentKey('prepkey'),
-            getCurrentKey('settingskey')
-        ]);
+		document.querySelector('#currentmovekey').innerHTML = currentKeys[0] || 'X';
+		document.querySelector('#currentjpkey').innerHTML = currentKeys[1] || 'V';
+		document.querySelector('#currentrefreshkey').innerHTML = currentKeys[2] || 'C';
+		document.querySelector('#currentmainpagekey').innerHTML = currentKeys[3] || 'Space';
+		document.querySelector('#currentresignkey').innerHTML = currentKeys[4] || "'";
+		document.querySelector('#currentdossierkey').innerHTML = currentKeys[5] || 'M';
+		document.querySelector('#currentdossiernationkey').innerHTML = currentKeys[6] || 'N';
+		document.querySelector('#currentendorsekey').innerHTML = currentKeys[7] || 'Z';
+		document.querySelector('#currentgcrkey').innerHTML = currentKeys[8] || 'G';
+		document.querySelector('#currentviewregionkey').innerHTML = currentKeys[9] || 'D';
+		document.querySelector('#currentworldactivitykey').innerHTML = currentKeys[10] || 'F';
+		document.querySelector('#currentdidiupdatekey').innerHTML = currentKeys[11] || 'U';
+		document.querySelector('#currentdelegatekey').innerHTML = currentKeys[12] || 'A';
+		document.querySelector('#currentprepkey').innerHTML = currentKeys[13] || 'P';
+		document.querySelector('#currentsettingskey').innerHTML = currentKeys[14] || '0';
+	}
 
-        document.querySelector('#currentmovekey').innerHTML = currentKeys[0] || 'X';
-        document.querySelector('#currentjpkey').innerHTML = currentKeys[1] || 'V';
-        document.querySelector('#currentrefreshkey').innerHTML = currentKeys[2] || 'C';
-        document.querySelector('#currentmainpagekey').innerHTML = currentKeys[3] || 'Space';
-        document.querySelector('#currentresignkey').innerHTML = currentKeys[4] || "'";
-        document.querySelector('#currentdossierkey').innerHTML = currentKeys[5] || 'M';
-        document.querySelector('#currentdossiernationkey').innerHTML = currentKeys[6] || 'N';
-        document.querySelector('#currentendorsekey').innerHTML = currentKeys[7] || 'Z';
-        document.querySelector('#currentgcrkey').innerHTML = currentKeys[8] || 'G';
-        document.querySelector('#currentviewregionkey').innerHTML = currentKeys[9] || 'D';
-        document.querySelector('#currentworldactivitykey').innerHTML = currentKeys[10] || 'F';
-        document.querySelector('#currentdidiupdatekey').innerHTML = currentKeys[11] || 'U';
-        document.querySelector('#currentdelegatekey').innerHTML = currentKeys[12] || 'A';
-        document.querySelector('#currentprepkey').innerHTML = currentKeys[13] || 'P';
-        document.querySelector('#currentsettingskey').innerHTML = currentKeys[14] || '0';
-    }
+	async function displayCurrentSettings(): Promise<void> {
+		const currentSettings = await Promise.all([getCurrentKey('useragent'), getCurrentKey('jumppoint'), getCurrentKey('roname'), getCurrentKey('blockedregions'), getCurrentKey('dossierkeywords'), getCurrentKey('endorsekeywords')]);
 
-    async function displayCurrentSettings(): Promise<void>
-    {
-        const currentSettings = await Promise.all([
-            getCurrentKey('useragent'),
-            getCurrentKey('jumppoint'),
-            getCurrentKey('roname'),
-            getCurrentKey('blockedregions'),
-            getCurrentKey('dossierkeywords'),
-            getCurrentKey('endorsekeywords')
-        ]);
+		(document.querySelector('#new-main-nation') as HTMLInputElement).value = currentSettings[0];
+		document.querySelector('#current-jumppoint').innerHTML = currentSettings[1];
+		document.querySelector('#current-roname').innerHTML = currentSettings[2];
+		const blockedRegions = currentSettings[3] ?? [];
+		const dossierKeywords = currentSettings[4] ?? [];
+		const endorseKeywords = currentSettings[5] ?? [];
+		for (let i = 0; i !== blockedRegions.length; i++) document.querySelector('#current-blocked-regions').innerHTML += `${blockedRegions[i]}<br>`;
+		for (let i = 0; i !== dossierKeywords.length; i++) document.querySelector('#current-dossier-keywords').innerHTML += `<b>${dossierKeywords[i]}</b><br>`;
+		for (let i = 0; i !== endorseKeywords.length; i++) (document.querySelector('#endorse-keywords') as HTMLTextAreaElement).value += `${endorseKeywords[i]}\n`;
+	}
 
-        (document.querySelector('#new-main-nation') as HTMLInputElement).value = currentSettings[0];
-        document.querySelector('#current-jumppoint').innerHTML = currentSettings[1];
-        document.querySelector('#current-roname').innerHTML = currentSettings[2];
-        const blockedRegions = currentSettings[3] ?? [];
-        const dossierKeywords = currentSettings[4] ?? [];
-        const endorseKeywords = currentSettings[5] ?? [];
-        for (let i = 0; i !== blockedRegions.length; i++)
-            document.querySelector('#current-blocked-regions').innerHTML += `${blockedRegions[i]}<br>`;
-        for (let i = 0; i !== dossierKeywords.length; i++)
-            document.querySelector('#current-dossier-keywords').innerHTML += `<b>${dossierKeywords[i]}</b><br>`;
-        for (let i = 0; i !== endorseKeywords.length; i++)
-            (document.querySelector('#endorse-keywords') as HTMLTextAreaElement).value += `${endorseKeywords[i]}\n`;
-    }
-
-    await displayCurrentKeys();
-    await displayCurrentSettings();
+	await displayCurrentKeys();
+	await displayCurrentSettings();
 })();
